@@ -37,6 +37,42 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
+			
+			window.localStorage.setItem("firstname","William");
+			window.localStorage.setItem("lastname","Cadwallader");
+			window.localStorage.setItem("telephone","01723487365");
+			window.localStorage.setItem("mobile","07954682459");
+			window.localStorage.setItem("email","caddy@gmail.com");
+			
+			function Marsbar (content, per100g, per58portion) {
+				this.content = content;
+				this.per100g = per100g;
+				this.per58portion = per58portion;
+			}
+			
+			var energy = new Marsbar ('Energy KJ','1888','1095');
+			
+			window.localStorage.setItem("energy", JSON.stringify(energy));
+			
+			var retrieved_energy = JSON.parse(window.localStorage.getItem("energy"));
+			
+			
+			alert(retrieved_energy.content + ' Per 100g: ' + retrieved_energy.per100g)
+			
+			var db = window.openDatabase('foods_db','1.0','My Food Database',131072);
+			
+			db.transaction(transaction, onError);
+			
+			function transaction (tx) {
+   				tx.executeSql('CREATE TABLE IF NOT EXISTS MARSBAR (id unique, content, per_100g, per_bar)');
+  			 	tx.executeSql('INSERT INTO MARSBAR (id, content, per_100g, per_bar) VALUES (1, "Energy (kj)", 1888, 1095)');
+   				tx.executeSql('INSERT INTO MARSBAR (id, content, per_100g, per_bar) VALUES (2, "Energy (kcal)", 449, 260)');
+			}
+			
+			function onError (error) {
+				console.log ("There was a error due to the idiot programming it! " + error.message);
+			}
+			
         </script>
     </body>
 </html>
